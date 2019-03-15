@@ -1,57 +1,43 @@
-// classic implementation (with Hoare or Lomuto partition scheme, you can comment either one method or the other to see the difference)
-function swap(array, i, j) {
-  var temp = array[i];
-  array[i] = array[j];
-  array[j] = temp;
-}
-
-function quicksort(array, left, right) {
-  left = left || 0;
-  right = right || array.length - 1;
-
-  // var pivot = partitionLomuto(array, left, right); // you can play with both partition
-  var pivot = partitionHoare(array, left, right); // you can play with both partition
-
-  if(left < pivot - 1) {
-    quicksort(array, left, pivot - 1);
-  }
-  if(right > pivot) {
-    quicksort(array, pivot, right);
-  }
-  return array;
-}
-// Lomuto partition scheme, it is less efficient than the Hoare partition scheme
-function partitionLomuto(array, left, right) {
-  var pivot = right;
-  var i = left;
-
-  for(var j = left; j < right; j++) {
-    if(array[j] <= array[pivot]) {
-      swap(array, i , j);
-      i = i + 1;
+function partition(a, lt, gt) {
+  let p =  Math.floor((lt+gt)/2)
+  swap(0,p,a)
+  while (lt <= gt) {
+    while (a[lt] <= a[0]) {
+      lt++;
+    }
+    while (a[gt] > a[0]) {
+      gt--;
+    }
+    if (lt < gt) {
+      swap(lt, gt, a);
+      lt++;
+      gt--;
     }
   }
-  swap(array, i, j);
-  return i;
+  swap(0,gt,a)
+  return gt;
 }
-// Hoare partition scheme, it is more efficient than the Lomuto partition scheme because it does three times fewer swaps on average
-function partitionHoare(array, left, right) {
-  var pivot = Math.floor((left + right) / 2 );
+function qs(a,s,e) {
+  let k = 4
+  s= s || 0
+  e= e || a.length -1
+  if(a.length <2) return a
+  let p = partition(a,s,e)
+  //  if(p === k) {
+  //    return a[p]
+  //  }
+  //  if(p>k) {
+  //    qs(a,s,p-1)
+  //  }
+  //  else if(p<k) {
+  //    k = k-p
+  //   qs(a,p+1,e)
+  // }
+  if(s < p-1)
+    qs(a,s,p-1)
+  if(e > p+1)
+    qs(a,p+1,e)
+  return a
+}
 
-  while(left <= right) {
-    while(array[left] < array[pivot]) {
-      left++;
-    }
-    while(array[right] > array[pivot]) {
-      right--;
-    }
-    if(left <= right) {
-      swap(array, left, right);
-      left++;
-      right--;
-    }
-  }
-  return left;
-}
-let arr = [9,3,2,1,8,7,6]
-console.log(quicksort(arr))
+console.log(qs([4,1,3,2,5,9,8,1,7,12,13]))
