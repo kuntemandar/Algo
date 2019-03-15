@@ -1,3 +1,9 @@
+function swap(i, j, a) {
+  let t = a[i];
+  a[i] = a[j];
+  a[j] = t;
+}
+
 function partition(a, lt, gt) {
   let p =  Math.floor((lt+gt)/2)
   swap(0,p,a)
