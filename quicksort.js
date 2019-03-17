@@ -1,49 +1,42 @@
-function swap(i, j, a) {
-  let t = a[i];
-  a[i] = a[j];
-  a[j] = t;
+var items = [5,3,7,6,2,9];
+function swap(items, leftIndex, rightIndex){
+    var temp = items[leftIndex];
+    items[leftIndex] = items[rightIndex];
+    items[rightIndex] = temp;
+}
+function partition(items, left, right) {
+    var pivot   = items[Math.floor((right + left) / 2)], //middle element
+        i       = left, //left pointer
+        j       = right; //right pointer
+    while (i <= j) {
+        while (items[i] < pivot) {
+            i++;
+        }
+        while (items[j] > pivot) {
+            j--;
+        }
+        if (i <= j) {
+            swap(items, i, j); //sawpping two elements
+            i++;
+            j--;
+        }
+    }
+    return i;
 }
 
-function partition(a, lt, gt) {
-  let p =  Math.floor((lt+gt)/2)
-  swap(0,p,a)
-  while (lt <= gt) {
-    while (a[lt] <= a[0]) {
-      lt++;
+function quickSort(items, left, right) {
+    var index;
+    if (items.length > 1) {
+        index = partition(items, left, right); //index returned from partition
+        if (left < index - 1) { //more elements on the left side of the pivot
+            quickSort(items, left, index - 1);
+        }
+        if (index < right) { //more elements on the right side of the pivot
+            quickSort(items, index, right);
+        }
     }
-    while (a[gt] > a[0]) {
-      gt--;
-    }
-    if (lt < gt) {
-      swap(lt, gt, a);
-      lt++;
-      gt--;
-    }
-  }
-  swap(0,gt,a)
-  return gt;
+    return items;
 }
-function qs(a,s,e) {
-  let k = 4
-  s= s || 0
-  e= e || a.length -1
-  if(a.length <2) return a
-  let p = partition(a,s,e)
-  //  if(p === k) {
-  //    return a[p]
-  //  }
-  //  if(p>k) {
-  //    qs(a,s,p-1)
-  //  }
-  //  else if(p<k) {
-  //    k = k-p
-  //   qs(a,p+1,e)
-  // }
-  if(s < p-1)
-    qs(a,s,p-1)
-  if(e > p+1)
-    qs(a,p+1,e)
-  return a
-}
-
-console.log(qs([4,1,3,2,5,9,8,1,7,12,13]))
+// first call to quick sort
+var sortedArray = quickSort(items, 0, items.length - 1);
+console.log(sortedArray); //prints [2,3,5,6,7,9]
