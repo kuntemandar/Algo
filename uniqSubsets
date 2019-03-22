@@ -1,0 +1,15 @@
+function powersets(array){
+	function ps(i,k,res){
+  	if(i === array.length){
+    	out.push(res)
+      return
+    }
+    ps(i+1,k+1,res.concat(array[i]))
+    while(array[i]===array[i+1]) i++
+    ps(i+1,k,res)
+  }
+  let out =[]
+  ps(0,0,[],out)
+  return out
+}
+console.log(powersets([1, 1, 4]))
