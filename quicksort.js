@@ -1,42 +1,36 @@
-var items = [5,3,7,6,2,9];
-function swap(items, leftIndex, rightIndex){
-    var temp = items[leftIndex];
-    items[leftIndex] = items[rightIndex];
-    items[rightIndex] = temp;
+function qs(arr,l,r){
+	if(arr.length < 2)
+  	return arr
+  
+  let p = partition(arr,l,r)
+  if(l <= p-1)
+  	qs(arr,l,p-1)
+  if(r>=p+1)
+  	qs(arr,p+1,r)
+	return arr
 }
-function partition(items, left, right) {
-    var pivot   = items[Math.floor((right + left) / 2)], //middle element
-        i       = left, //left pointer
-        j       = right; //right pointer
-    while (i <= j) {
-        while (items[i] < pivot) {
-            i++;
-        }
-        while (items[j] > pivot) {
-            j--;
-        }
-        if (i <= j) {
-            swap(items, i, j); //sawpping two elements
-            i++;
-            j--;
-        }
-    }
-    return i;
+function swap(a,i,j){
+let t = a[i]
+a[i] = a[j]
+a[j] = t
 }
-
-function quickSort(items, left, right) {
-    var index;
-    if (items.length > 1) {
-        index = partition(items, left, right); //index returned from partition
-        if (left < index - 1) { //more elements on the left side of the pivot
-            quickSort(items, left, index - 1);
-        }
-        if (index < right) { //more elements on the right side of the pivot
-            quickSort(items, index, right);
-        }
-    }
-    return items;
+function partition(arr,l,r){
+	var p   = Math.floor((r + l) / 2) //middle 
+  swap(arr,p,0)
+	while(l <= r){
+  	while(arr[l] <= arr[0])
+    	l++
+    while(arr[r] > arr[0])
+    	r--
+    if(l<=r){
+    	swap(arr,l,r)
+      l++
+      r--
+    } 
+  }
+	swap(arr,0,r)
+  return r
 }
-// first call to quick sort
-var sortedArray = quickSort(items, 0, items.length - 1);
-console.log(sortedArray); //prints [2,3,5,6,7,9]
+let arr = [1,3,5,6,2,99,-7]
+let r = arr.length-1
+console.log(qs(arr,0,r),'sorted array')
