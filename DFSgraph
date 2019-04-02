@@ -1,0 +1,49 @@
+function Graph (noOfVertices) { 
+	this.noOfVertices = noOfVertices; 
+	this.adjList = new Map(); 
+}
+Graph.prototype.dfs = function (g, v, visited) {
+  	if(visited.indexOf(v) === -1){
+    	console.log(v)
+      visited.push(v)
+      let list = g.adjList.get(v)
+      list.forEach(el => g.dfs(g,el,visited))
+    }
+}
+Graph.prototype.addVertex = function(g,v) { 
+    g.adjList.set(v, []); 
+} 
+Graph.prototype.addEdge = function(g, v, w) { 
+    g.adjList.get(v).push(w); 
+    g.adjList.get(w).push(v); 
+}
+var g = new Graph(6); 
+var vertices = [ 'A', 'B', 'C', 'D', 'E', 'F' ]; 
+  
+// adding vertices 
+for (var i = 0; i < vertices.length; i++) { 
+    g.addVertex(g,vertices[i]); 
+} 
+Graph.prototype.dfsn = function(v,visited){
+	if(visited.indexOf(v) === -1){
+  	console.log(v)
+    visited.push(v)
+    let list = this.adjList.get(v)
+    list.forEach(el => {
+    	this.dfsn(el, visited)
+    })
+  }
+}
+// adding edges 
+g.addEdge(g,'A', 'B'); 
+g.addEdge(g,'A', 'D'); 
+g.addEdge(g,'A', 'E'); 
+g.addEdge(g,'B', 'C'); 
+g.addEdge(g,'D', 'E'); 
+g.addEdge(g,'E', 'F'); 
+g.addEdge(g,'E', 'C'); 
+g.addEdge(g,'C', 'F'); 
+console.log(g)
+console.log(g.dfsn('A',[]))
+console.log(g.dfs(g,'A',[]))
+
