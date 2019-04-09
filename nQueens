@@ -1,0 +1,35 @@
+function Main(n){
+	let q = []
+  let row = 0
+  if(n <= 0)
+  	return null
+  function nQ(col,q) {
+  	let row = 0
+  	if(col >= n)
+    	return true
+    while(row < n) {
+    	q.push([row,col])
+      if(isSafe(row,col) && nQ(col+1,q))
+      	return true
+    }
+    row++
+    q.pop()
+  }
+  function isSafe(row,col){
+  	for(let i = 0; i < q.length-1;i++){
+    	let r = q[i][0]
+      let c = q[i][1]
+      if(r=== row)
+      	return false
+      if(c === col)
+      	return false
+      if(Math.abs(row-col) === Math.abs(r-c)) 
+      	return false
+    }
+    return true
+  }
+  nQ(0,q)
+  console.log(q)
+}
+
+Main(3)
