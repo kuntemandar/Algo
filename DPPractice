@@ -1,0 +1,68 @@
+function maxcut( prices, rod) {
+	console.log(helper(prices, prices.length))
+}
+
+function helper(prices, len) {
+	if(len == 0)
+  	return 0
+	let currmax = -1
+  // in the for loop we are comparing the maxprice of
+  // cut at 1,2,3,4,.... and taking the max of them
+  // so its Math.max(currMax, nextMax)
+  // nextMax is the recursive call
+	for(let i =0 ; i < len; i++) {
+  	currmax = Math.max(currmax, prices[i] + helper(prices, len - i -1 ))
+  }
+  return currmax
+}
+
+function dp(prices) {
+	let dpa = new Array(prices.length+1)
+  dpa[0] = 0
+  for(let i =1;i<dpa.length;i++){
+  	let maxprice = -1
+  	for(let j=0;j<i;j++){
+  		dpa[i] = Math.max(maxprice,prices[j]+dpa[i-j-1])
+      maxprice = dpa[i]
+    }
+  }
+  console.log(dpa)
+}
+
+function dyn(prices, length) {
+    const max = [0];  //len 0 as price 0     
+    for (let i = 1; i <= length; i++) {
+        const ps = prices.slice(0, i);
+        const all = ps.map((p, l) => p + max[i - l - 1]);
+        max[i] = Math.max(...all);
+    }
+    console.log( max[length]);
+}
+
+let prices = [2,3,3,12,12,12]
+let rod =    [1,2,3,4,5,6]
+//dyn(prices,prices.length)
+//maxcut(prices)
+dp(prices)
+let inp = [2,3,5,7]
+function bal(inp) {
+	let total = inp.reduce((ac,el) => ac+el)
+  let ans = false
+  function helpbal(inp, sum, i) {
+	if(sum === 0) {
+  	ans = true
+    return
+  } else if(i === inp.length) {
+    return 
+    }
+   helpbal(inp, sum, i+1)
+   if(sum-inp[i]>=0)
+   	helpbal(inp, sum - inp[i], i+1)
+   return
+}
+	helpbal(inp, total/2, 0)
+  console.log(ans)
+}
+
+
+//bal(inp)
