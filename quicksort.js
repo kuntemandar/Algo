@@ -1,34 +1,21 @@
-function quickSort(arr, left, right){
-   var len = arr.length, 
-   pivot,
-   partitionIndex;
-
-
-  if(left < right){
-    pivot = right;
-    partitionIndex = partition(arr, pivot, left, right);
-    
-   //sort left and right
-   quickSort(arr, left, partitionIndex - 1);
-   quickSort(arr, partitionIndex + 1, right);
+function quicksort(array) {
+  if (array.length <= 1) {
+    return array;
   }
-  return arr;
-}
-function partition(arr, pivot, left, right){
-   var pivotValue = arr[pivot],
-       partitionIndex = left;
 
-   for(var i = left; i < right; i++){
-    if(arr[i] < pivotValue){
-      swap(arr, i, partitionIndex);
-      partitionIndex++;
-    }
+  var pivot = array[0];
+  
+  var left = []; 
+  var right = [];
+
+  for (var i = 1; i < array.length; i++) {
+    array[i] < pivot ? left.push(array[i]) : right.push(array[i]);
   }
-  swap(arr, right, partitionIndex);
-  return partitionIndex;
-}
-function swap(arr, i, j){
-   var temp = arr[i];
-   arr[i] = arr[j];
-   arr[j] = temp;
-}
+
+  return quicksort(left).concat(pivot, quicksort(right));
+};
+
+var unsorted = [23, 45, 16, 37, 3, 99, 22];
+var sorted = quicksort(unsorted);
+
+console.log('Sorted array', sorted);
